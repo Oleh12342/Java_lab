@@ -1,16 +1,29 @@
 package org.example;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
+    private static final ArrayList<Clothes> list = new ArrayList<>();
+    private static final Scanner sc = new Scanner(System.in);
+
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.println("\n--- Меню ---");
+            System.out.println("1. Додати об'єкт");
+            System.out.println("2. Вивести всі об'єкти");
+            System.out.println("3. Вихід");
 
-        System.out.print("Введіть кількість елементів одягу: ");
-        int n = scanner.nextInt();
-        scanner.nextLine();
+            String choice = sc.nextLine();
 
-        Clothes[] clothesArray = new Clothes[n];
+            switch (choice) {
+                case "1" -> addObject();
+                case "2" -> showObjects();
+                case "3" -> System.exit(0);
+                default -> System.out.println("Невірний вибір!");
+            }
+        }
+    }
 
         for (int i = 0; i < n; i++) {
             System.out.println("Введіть назву речі #" + (i + 1) + ":");
