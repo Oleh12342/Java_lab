@@ -25,19 +25,30 @@ public class Main {
         }
     }
 
-        for (int i = 0; i < n; i++) {
-            System.out.println("Введіть назву речі #" + (i + 1) + ":");
-            String name = scanner.nextLine();
-            System.out.println("Введіть розмір:");
-            int size = scanner.nextInt();
-            scanner.nextLine();
+    private static void addObject() {
+        try {
+            System.out.print("Назва: ");
+            String name = sc.nextLine();
 
-            clothesArray[i] = new Clothes(name, size);
-        }
+            System.out.print("Розмір: ");
+            int size = Integer.parseInt(sc.nextLine());
 
-        System.out.println("\nВаш сформований список:");
-        for (Clothes c : clothesArray) {
-            System.out.println(c);
+            System.out.print("Ціна: ");
+            double price = Double.parseDouble(sc.nextLine());
+
+            System.out.print("Матеріал: ");
+            String mat = sc.nextLine();
+
+            list.add(new Clothes(name, size, price, mat));
+        } catch (NumberFormatException e) {
+            System.out.println("Помилка: Введіть числове значення!");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Помилка валідації: " + e.getMessage());
         }
+    }
+
+    private static void showObjects() {
+        if (list.isEmpty()) System.out.println("Список порожній");
+        else list.forEach(System.out::println);
     }
 }
