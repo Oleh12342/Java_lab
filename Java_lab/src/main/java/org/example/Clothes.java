@@ -4,6 +4,10 @@ package org.example;
  * Клас, що представляє предмет одягу.
  */
 public class Clothes {
+    private static int numberOfObjects = 0;
+
+    private Manufacturer manufacturer;
+
     private String name;
     private int size;
     private double price;
