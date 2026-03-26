@@ -1,54 +1,75 @@
 package org.example;
 
-import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * Драйвер програми для керування списком одягу.
+ */
 public class Main {
-    private static final ArrayList<Clothes> list = new ArrayList<>();
-    private static final Scanner sc = new Scanner(System.in);
-
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        List<Clothes> wardrobe = new ArrayList<Clothes>();
+
         while (true) {
-            System.out.println("\n--- Меню ---");
-            System.out.println("1. Додати об'єкт");
-            System.out.println("2. Вивести всі об'єкти");
-            System.out.println("3. Вихід");
+            System.out.println("\n--- МЕНЮ ---");
+            System.out.println("1. Додати новий одяг");
+            System.out.println("2. Показати весь одяг та лічильник");
+            System.out.println("3. Демонстрація конструктора копіювання");
+            System.out.println("0. Вихід");
+            System.out.print("Виберіть дію: ");
 
             String choice = sc.nextLine();
 
-            switch (choice) {
-                case "1" -> addObject();
-                case "2" -> showObjects();
-                case "3" -> System.exit(0);
-                default -> System.out.println("Невірний вибір!");
+            if (choice.equals("1")) {
+                try {
+                    System.out.print("Введіть назву бренду: ");
+                    String brand = sc.nextLine();
+                    System.out.print("Введіть країну виробника: ");
+                    String country = sc.nextLine();
+                    Manufacturer manufacturer = new Manufacturer(brand, country);
+
+                    System.out.print("Введіть назву одягу: ");
+                    String name = sc.nextLine();
+                    System.out.print("Введіть розмір (число): ");
+                    int size = Integer.parseInt(sc.nextLine());
+                    System.out.print("Введіть ціну: ");
+                    double price = Double.parseDouble(sc.nextLine());
+
+                    System.out.println("Виберіть сезон (0-WINTER, 1-SPRING, 2-SUMMER, 3-AUTUMN): ");
+                    int seasonIndex = Integer.parseInt(sc.nextLine());
+                    Season season = Season.values()[seasonIndex];
+
+                    Clothes item = new Clothes(name, size, price, season, manufacturer);
+                    wardrobe.add(item);
+                    System.out.println("Додано успішно!");
+
+                } catch (Exception e) {
+                    System.out.println("Помилка введення: " + e.getMessage());
+                }
+
+            } else if (choice.equals("2")) {
+                System.out.println("\nВсього створено об'єктів (static count): " + Clothes.getNumberOfObjects());
+
+                for (int i = 0; i < wardrobe.size(); i++) {
+                    System.out.println(wardrobe.get(i).toString());
+                }
+
+            } else if (choice.equals("3")) {
+                if (wardrobe.isEmpty()) {
+                    System.out.println("Список порожній!");
+                } else {
+                    Clothes original = wardrobe.get(0);
+                    Clothes copy = new Clothes(original);
+                    System.out.println("Оригінал: " + original);
+                    System.out.println("Копія:    " + copy);
+                    System.out.println("Лічильник після копіювання: " + Clothes.getNumberOfObjects());
+                }
+
+            } else if (choice.equals("0")) {
+                break;
             }
         }
-    }
-
-    private static void addObject() {
-        try {
-            System.out.print("Назва: ");
-            String name = sc.nextLine();
-
-            System.out.print("Розмір: ");
-            int size = Integer.parseInt(sc.nextLine());
-
-            System.out.print("Ціна: ");
-            double price = Double.parseDouble(sc.nextLine());
-
-            System.out.print("Матеріал: ");
-            String mat = sc.nextLine();
-
-            list.add(new Clothes(name, size, price, mat));
-        } catch (NumberFormatException e) {
-            System.out.println("Помилка: Введіть числове значення!");
-        } catch (IllegalArgumentException e) {
-            System.out.println("Помилка валідації: " + e.getMessage());
-        }
-    }
-
-    private static void showObjects() {
-        if (list.isEmpty()) System.out.println("Список порожній");
-        else list.forEach(System.out::println);
     }
 }
