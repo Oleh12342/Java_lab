@@ -4,34 +4,20 @@ package org.example;
  * Клас, що представляє предмет одягу.
  */
 public class Clothes {
-    private static int numberOfObjects = 0;
-
     private String name;
     private int size;
     private double price;
-    private Season season;
-    private Manufacturer manufacturer;
+    private String material;
 
-    public Clothes(String name, int size, double price, Season season, Manufacturer manufacturer) {
+    /**
+     * Конструктор для створення об'єкта одягу.
+     * @throws IllegalArgumentException якщо параметри некоректні
+     */
+    public Clothes(String name, int size, double price, String material) {
         setName(name);
         setSize(size);
         setPrice(price);
-        setSeason(season);
-        this.manufacturer = manufacturer;
-        numberOfObjects++;
-    }
-
-    public Clothes(Clothes other) {
-        this.name = other.name;
-        this.size = other.size;
-        this.price = other.price;
-        this.season = other.season;
-        this.manufacturer = other.manufacturer;
-        numberOfObjects++;
-    }
-
-    public static int getNumberOfObjects() {
-        return numberOfObjects;
+        setMaterial(material);
     }
 
     public void setName(String name) {
@@ -50,20 +36,15 @@ public class Clothes {
         this.price = price;
     }
 
-    public void setSeason(Season season) {
-        if (season == null) throw new IllegalArgumentException("Сезон має бути вказаний");
-        this.season = season;
+    public void setMaterial(String material) {
+        if (material == null || material.trim().isEmpty())
+            throw new IllegalArgumentException("Матеріал не вказано");
+        this.material = material;
     }
-
-    public String getName() { return name; }
-    public int getSize() { return size; }
-    public double getPrice() { return price; }
-    public Season getSeason() { return season; }
-    public Manufacturer getManufacturer() { return manufacturer; }
 
     @Override
     public String toString() {
-        return String.format("Одяг: %s, Розмір: %d, Ціна: %.2f, Сезон: %s, Виробник: %s",
-                name, size, price, season.getTitle(), manufacturer.toString());
+        return String.format("Одяг: %s, Розмір: %d, Ціна: %.2f, Матеріал: %s",
+                name, size, price, material);
     }
 }
