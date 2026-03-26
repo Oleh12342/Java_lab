@@ -21,7 +21,31 @@ public class Clothes {
         setName(name);
         setSize(size);
         setPrice(price);
-        setMaterial(material);
+        setSeason(season);
+        this.manufacturer = manufacturer;
+        numberOfObjects++;
+    }
+
+    /**
+     * Конструктор копіювання.
+     * Створює новий об'єкт на основі вже існуючого.
+     * @param other об'єкт для копіювання
+     */
+    public Clothes(Clothes other) {
+        this.name = other.name;
+        this.size = other.size;
+        this.price = other.price;
+        this.season = other.season;
+        this.manufacturer = other.manufacturer;
+        numberOfObjects++;
+    }
+
+    /**
+     * Статичний метод для отримання загальної кількості створених об'єктів.
+     * @return кількість об'єктів
+     */
+    public static int getNumberOfObjects() {
+        return numberOfObjects;
     }
 
     public void setName(String name) {
