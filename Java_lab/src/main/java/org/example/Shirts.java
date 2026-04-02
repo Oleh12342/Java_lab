@@ -1,7 +1,7 @@
 package org.example;
 
 public class Shirts extends Clothes {
-    private String sleeveType; // Наприклад: "Короткий" або "Довгий"
+    private String sleeveType;
 
     public Shirts(String name, int size, double price, String material, String sleeveType) {
         super(name, size, price, material);
