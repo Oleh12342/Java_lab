@@ -5,6 +5,7 @@ public class Jeans extends Pants {
 
     public Jeans(String name, int size, double price, String material, int length, String fit) {
         super(name, size, price, material, length);
+        this.classType = "Jeans";
         this.fit = fit;
     }
 

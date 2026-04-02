@@ -4,6 +4,7 @@ package org.example;
  * Клас, що представляє предмет одягу.
  */
 public class Clothes {
+    protected String classType;
     private String name;
     private int size;
     private double price;
@@ -14,11 +15,19 @@ public class Clothes {
      * @throws IllegalArgumentException якщо параметри некоректні
      */
     public Clothes(String name, int size, double price, String material) {
+        this.classType = "Clothes";
+
         setName(name);
         setSize(size);
         setPrice(price);
         setMaterial(material);
     }
+
+    public String getClassType() { return classType; }
+    public String getName() { return name; }
+    public int getSize() { return size; }
+    public double getPrice() { return price; }
+    public String getMaterial() { return material; }
 
     public void setName(String name) {
         if (name == null || name.trim().isEmpty())

@@ -5,6 +5,7 @@ public class TShirt extends Shirts {
 
     public TShirt(String name, int size, double price, String material, String sleeveType, boolean hasPrint) {
         super(name, size, price, material, sleeveType);
+        this.classType = "TShirt";
         this.hasPrint = hasPrint;
     }
 
