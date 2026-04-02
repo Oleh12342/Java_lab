@@ -1,18 +1,23 @@
 package org.example;
 
+import com.google.gson.*;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
     private static final ArrayList<Clothes> list = new ArrayList<>();
     private static final Scanner sc = new Scanner(System.in);
+    private static final String FILE_NAME = "input.json";
 
     public static void main(String[] args) {
+        loadFromJson();
+
         while (true) {
-            System.out.println("\n--- Меню (Лабораторна №8) ---");
+            System.out.println("\n--- Меню (Лабораторна №9) ---");
             System.out.println("1. Додати об'єкт");
             System.out.println("2. Вивести інформацію про всі об’єкти");
-            System.out.println("3. Вихід");
+            System.out.println("3. Вихід (зі збереженням)");
 
             System.out.print("Ваш вибір: ");
             String choice = sc.nextLine();
@@ -21,7 +26,8 @@ public class Main {
                 case "1" -> addObject();
                 case "2" -> showObjects();
                 case "3" -> {
-                    System.out.println("Програма завершена.");
+                    saveToJson();
+                    System.out.println("Програма завершена. Дані збережено.");
                     System.exit(0);
                 }
                 default -> System.out.println("Невірний вибір!");
@@ -60,9 +66,7 @@ public class Main {
             String mat = sc.nextLine();
 
             switch (type) {
-                case "1" -> {
-                    list.add(new Clothes(name, size, price, mat));
-                }
+                case "1" -> list.add(new Clothes(name, size, price, mat));
                 case "2" -> {
                     System.out.print("Довжина штанів (см): ");
                     int len = Integer.parseInt(sc.nextLine());
@@ -110,6 +114,40 @@ public class Main {
             System.out.println("\n--- Список усіх об'єктів в ієрархії ---");
             list.forEach(System.out::println);
             System.out.println("---------------------------------------");
+        }
+    }
+
+    private static void saveToJson() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try (FileWriter writer = new FileWriter(FILE_NAME)) {
+            gson.toJson(list, writer);
+        } catch (IOException e) {
+            System.out.println("Помилка запису у файл: " + e.getMessage());
+        }
+    }
+
+    private static void loadFromJson() {
+        File file = new File(FILE_NAME);
+        if (!file.exists()) return;
+
+        Gson gson = new Gson();
+        try (FileReader reader = new FileReader(file)) {
+            JsonArray jsonArray = JsonParser.parseReader(reader).getAsJsonArray();
+            for (int i = 0; i < jsonArray.size(); i++) {
+                JsonObject obj = jsonArray.get(i).getAsJsonObject();
+
+                String type = obj.get("classType").getAsString();
+
+                switch (type) {
+                    case "Clothes" -> list.add(gson.fromJson(obj, Clothes.class));
+                    case "Pants"   -> list.add(gson.fromJson(obj, Pants.class));
+                    case "Shirts"  -> list.add(gson.fromJson(obj, Shirts.class));
+                    case "Jeans"   -> list.add(gson.fromJson(obj, Jeans.class));
+                    case "TShirt"  -> list.add(gson.fromJson(obj, TShirt.class));
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Помилка завантаження даних: " + e.getMessage());
         }
     }
 }
