@@ -106,6 +106,18 @@ public class Main {
         if (!found) System.out.println("У вказаному ціновому діапазоні нічого не знайдено.");
     }
 
+    // Пошук за розміром
+    private static void findBySize(int size) {
+        boolean found = false;
+        System.out.println("\nРезультати пошуку для розміру " + size + ":");
+        for (Clothes item : list) {
+            if (item.getSize() == size) {
+                System.out.println(item);
+                found = true;
+            }
+        }
+        if (!found) System.out.println("Одягу розміру " + size + " немає в списку.");
+    }
 
     private static void addObject() {
         System.out.println("\nОберіть тип об'єкта для створення:");
