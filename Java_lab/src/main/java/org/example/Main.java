@@ -2,11 +2,10 @@ package org.example;
 
 import com.google.gson.*;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-    private static final ArrayList<Clothes> list = new ArrayList<>();
+    private static final Store myStore = new Store("TechStyle Shop");
     private static final Scanner sc = new Scanner(System.in);
     private static final String FILE_NAME = "input.json";
 
@@ -14,7 +13,7 @@ public class Main {
         loadFromJson();
 
         while (true) {
-            System.out.println("\n--- Меню (Лабораторна №10) ---");
+            System.out.println("\n--- Меню (Лабораторна №11) ---");
             System.out.println("1. Пошук об’єкта");
             System.out.println("2. Додати об'єкт");
             System.out.println("3. Вивести інформацію про всі об’єкти");
@@ -40,7 +39,7 @@ public class Main {
     private static void searchMenu() {
         while (true) {
             System.out.println("\n--- Підменю пошуку ---");
-            System.out.println("1. Пошук за назвою (частковий збіг)");
+            System.out.println("1. Пошук за назвою");
             System.out.println("2. Пошук за діапазоном ціни");
             System.out.println("3. Пошук за розміром");
             System.out.println("0. Повернутися до головного меню");
@@ -50,148 +49,88 @@ public class Main {
 
             switch (choice) {
                 case "1" -> {
-                    System.out.print("Введіть назву для пошуку: ");
-                    String name = sc.nextLine();
-                    findByName(name);
+                    System.out.print("Назва: ");
+                    myStore.findByName(sc.nextLine());
                 }
                 case "2" -> {
                     try {
-                        System.out.print("Мінімальна ціна: ");
+                        System.out.print("Мін. ціна: ");
                         double min = Double.parseDouble(sc.nextLine());
-                        System.out.print("Максимальна ціна: ");
+                        System.out.print("Макс. ціна: ");
                         double max = Double.parseDouble(sc.nextLine());
-                        findByPriceRange(min, max);
+                        myStore.findByPriceRange(min, max);
                     } catch (NumberFormatException e) {
-                        System.out.println("Помилка: введіть коректні числові значення для ціни!");
+                        System.out.println("Помилка числа!");
                     }
                 }
                 case "3" -> {
                     try {
-                        System.out.print("Введіть розмір: ");
-                        int size = Integer.parseInt(sc.nextLine());
-                        findBySize(size);
+                        System.out.print("Розмір: ");
+                        myStore.findBySize(Integer.parseInt(sc.nextLine()));
                     } catch (NumberFormatException e) {
-                        System.out.println("Помилка: розмір має бути цілим числом!");
+                        System.out.println("Помилка числа!");
                     }
                 }
                 case "0" -> { return; }
-                default -> System.out.println("Невірний вибір у підменю!");
             }
         }
-    }
-
-    // Пошук за назвою
-    private static void findByName(String name) {
-        boolean found = false;
-        System.out.println("\nРезультати пошуку:");
-        for (Clothes item : list) {
-            if (item.getName().toLowerCase().contains(name.toLowerCase())) {
-                System.out.println(item);
-                found = true;
-            }
-        }
-        if (!found) System.out.println("Об'єктів із назвою \"" + name + "\" не знайдено.");
-    }
-
-    // Пошук за ціною
-    private static void findByPriceRange(double min, double max) {
-        boolean found = false;
-        System.out.println("\nРезультати пошуку в діапазоні [" + min + " - " + max + "]:");
-        for (Clothes item : list) {
-            if (item.getPrice() >= min && item.getPrice() <= max) {
-                System.out.println(item);
-                found = true;
-            }
-        }
-        if (!found) System.out.println("У вказаному ціновому діапазоні нічого не знайдено.");
-    }
-
-    // Пошук за розміром
-    private static void findBySize(int size) {
-        boolean found = false;
-        System.out.println("\nРезультати пошуку для розміру " + size + ":");
-        for (Clothes item : list) {
-            if (item.getSize() == size) {
-                System.out.println(item);
-                found = true;
-            }
-        }
-        if (!found) System.out.println("Одягу розміру " + size + " немає в списку.");
     }
 
     private static void addObject() {
-        System.out.println("\nОберіть тип об'єкта для створення:");
-        System.out.println("1. Звичайний одяг");
-        System.out.println("2. Штани");
-        System.out.println("3. Сорочка");
-        System.out.println("4. Джинси");
-        System.out.println("5. Футболка");
-        System.out.println("0. Повернутися до головного меню");
-
+        System.out.println("\n1. Одяг | 2. Штани | 3. Сорочка | 4. Джинси | 5. Футболка | 0. Назад");
         System.out.print("Вибір: ");
         String type = sc.nextLine();
-
         if (type.equals("0")) return;
 
         try {
-            System.out.print("Назва: ");
-            String name = sc.nextLine();
-            System.out.print("Розмір: ");
-            int size = Integer.parseInt(sc.nextLine());
-            System.out.print("Ціна: ");
-            double price = Double.parseDouble(sc.nextLine());
-            System.out.print("Матеріал: ");
-            String mat = sc.nextLine();
+            System.out.print("Назва: "); String name = sc.nextLine();
+            System.out.print("Розмір: "); int size = Integer.parseInt(sc.nextLine());
+            System.out.print("Ціна: "); double price = Double.parseDouble(sc.nextLine());
+            System.out.print("Матеріал: "); String mat = sc.nextLine();
+            System.out.print("Кількість: "); int qty = Integer.parseInt(sc.nextLine());
 
+            Clothes item = null;
             switch (type) {
-                case "1" -> list.add(new Clothes(name, size, price, mat));
+                case "1" -> item = new Clothes(name, size, price, mat, qty);
                 case "2" -> {
-                    System.out.print("Довжина (см): ");
-                    int len = Integer.parseInt(sc.nextLine());
-                    list.add(new Pants(name, size, price, mat, len));
+                    System.out.print("Довжина: ");
+                    item = new Pants(name, size, price, mat, Integer.parseInt(sc.nextLine()), qty);
                 }
                 case "3" -> {
-                    System.out.print("Тип рукава: ");
-                    String sleeve = sc.nextLine();
-                    list.add(new Shirts(name, size, price, mat, sleeve));
+                    System.out.print("Рукав: ");
+                    item = new Shirts(name, size, price, mat, sc.nextLine(), qty);
                 }
                 case "4" -> {
-                    System.out.print("Довжина (см): ");
-                    int len = Integer.parseInt(sc.nextLine());
+                    System.out.print("Довжина: "); int l = Integer.parseInt(sc.nextLine());
                     System.out.print("Фасон: ");
-                    String fit = sc.nextLine();
-                    list.add(new Jeans(name, size, price, mat, len, fit));
+                    item = new Jeans(name, size, price, mat, l, sc.nextLine(), qty);
                 }
                 case "5" -> {
-                    System.out.print("Тип рукава: ");
-                    String sleeve = sc.nextLine();
-                    System.out.print("Чи є принт (true/false): ");
-                    boolean print = Boolean.parseBoolean(sc.nextLine());
-                    list.add(new TShirt(name, size, price, mat, sleeve, print));
+                    System.out.print("Рукав: "); String s = sc.nextLine();
+                    System.out.print("Принт (true/false): ");
+                    item = new TShirt(name, size, price, mat, s, Boolean.parseBoolean(sc.nextLine()), qty);
                 }
-                default -> System.out.println("Невірний тип.");
             }
+            if (item != null) myStore.addNewClothes(item, qty);
+
         } catch (Exception e) {
-            System.out.println("Помилка введення: " + e.getMessage());
+            System.out.println("Помилка: " + e.getMessage());
         }
     }
 
     private static void showObjects() {
-        if (list.isEmpty()) {
-            System.out.println("\nКолекція порожня.");
+        if (myStore.getInventory().isEmpty()) {
+            System.out.println("\nМагазин порожній.");
         } else {
-            System.out.println("\n--- Список усіх об'єктів ---");
-            for (Clothes item : list) {
-                System.out.println(item);
-            }
-            System.out.println("----------------------------");
+            System.out.println("\n--- Склад магазину ---");
+            for (Clothes c : myStore.getInventory()) System.out.println(c);
         }
     }
 
     private static void saveToJson() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         try (FileWriter writer = new FileWriter(FILE_NAME)) {
-            gson.toJson(list, writer);
+            gson.toJson(myStore.getInventory(), writer);
         } catch (IOException e) {
             System.out.println("Помилка запису: " + e.getMessage());
         }
@@ -206,13 +145,15 @@ public class Main {
             for (int i = 0; i < jsonArray.size(); i++) {
                 JsonObject obj = jsonArray.get(i).getAsJsonObject();
                 String type = obj.get("classType").getAsString();
-                switch (type) {
-                    case "Clothes" -> list.add(gson.fromJson(obj, Clothes.class));
-                    case "Pants"   -> list.add(gson.fromJson(obj, Pants.class));
-                    case "Shirts"  -> list.add(gson.fromJson(obj, Shirts.class));
-                    case "Jeans"   -> list.add(gson.fromJson(obj, Jeans.class));
-                    case "TShirt"  -> list.add(gson.fromJson(obj, TShirt.class));
-                }
+                Clothes c = switch (type) {
+                    case "Clothes" -> gson.fromJson(obj, Clothes.class);
+                    case "Pants"   -> gson.fromJson(obj, Pants.class);
+                    case "Shirts"  -> gson.fromJson(obj, Shirts.class);
+                    case "Jeans"   -> gson.fromJson(obj, Jeans.class);
+                    case "TShirt"  -> gson.fromJson(obj, TShirt.class);
+                    default -> null;
+                };
+                if (c != null) myStore.getInventory().add(c);
             }
         } catch (Exception e) {
             System.out.println("Помилка завантаження: " + e.getMessage());
