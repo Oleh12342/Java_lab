@@ -14,10 +14,11 @@ public class Main {
         loadFromJson();
 
         while (true) {
-            System.out.println("\n--- Меню (Лабораторна №9) ---");
-            System.out.println("1. Додати об'єкт");
-            System.out.println("2. Вивести інформацію про всі об’єкти");
-            System.out.println("3. Вихід (зі збереженням)");
+            System.out.println("\n--- Меню (Лабораторна №10) ---");
+            System.out.println("1. Пошук об’єкта");
+            System.out.println("2. Додати об'єкт");
+            System.out.println("3. Вивести інформацію про всі об’єкти");
+            System.out.println("4. Вихід (зі збереженням)");
 
             System.out.print("Ваш вибір: ");
             String choice = sc.nextLine();
@@ -26,11 +27,57 @@ public class Main {
                 case "1" -> addObject();
                 case "2" -> showObjects();
                 case "3" -> {
+                case "1" -> searchMenu();
+                case "2" -> addObject();
+                case "3" -> showObjects();
+                case "4" -> {
                     saveToJson();
                     System.out.println("Програма завершена. Дані збережено.");
                     System.exit(0);
                 }
                 default -> System.out.println("Невірний вибір!");
+            }
+        }
+    }
+    private static void searchMenu() {
+        while (true) {
+            System.out.println("\n--- Підменю пошуку ---");
+            System.out.println("1. Пошук за назвою (частковий збіг)");
+            System.out.println("2. Пошук за діапазоном ціни");
+            System.out.println("3. Пошук за розміром");
+            System.out.println("0. Повернутися до головного меню");
+            System.out.print("Ваш вибір: ");
+
+            String choice = sc.nextLine();
+
+            switch (choice) {
+                case "1" -> {
+                    System.out.print("Введіть назву для пошуку: ");
+                    String name = sc.nextLine();
+                    findByName(name);
+                }
+                case "2" -> {
+                    try {
+                        System.out.print("Мінімальна ціна: ");
+                        double min = Double.parseDouble(sc.nextLine());
+                        System.out.print("Максимальна ціна: ");
+                        double max = Double.parseDouble(sc.nextLine());
+                        findByPriceRange(min, max);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Помилка: введіть коректні числові значення для ціни!");
+                    }
+                }
+                case "3" -> {
+                    try {
+                        System.out.print("Введіть розмір: ");
+                        int size = Integer.parseInt(sc.nextLine());
+                        findBySize(size);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Помилка: розмір має бути цілим числом!");
+                    }
+                }
+                case "0" -> { return; }
+                default -> System.out.println("Невірний вибір у підменю!");
             }
         }
     }
