@@ -31,5 +31,19 @@
     "size": 44,
     "price": 500.0,
     "material": "Поліестер"
+  },
+  {
+    "classType": "Clothes",
+    "name": "Куртка",
+    "size": 22,
+    "price": 1200.0,
+    "material": "Тканина"
+  },
+  {
+    "classType": "Clothes",
+    "name": "Штани",
+    "size": 77,
+    "price": 1300.0,
+    "material": "Тканина"
   }
 ]

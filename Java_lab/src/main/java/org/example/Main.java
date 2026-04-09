@@ -131,28 +131,22 @@ public class Main {
         System.out.print("Вибір: ");
         String type = sc.nextLine();
 
-        if (type.equals("0")) {
-            System.out.println("Повернення до головного меню...");
-            return;
-        }
+        if (type.equals("0")) return;
 
         try {
             System.out.print("Назва: ");
             String name = sc.nextLine();
-
             System.out.print("Розмір: ");
             int size = Integer.parseInt(sc.nextLine());
-
             System.out.print("Ціна: ");
             double price = Double.parseDouble(sc.nextLine());
-
             System.out.print("Матеріал: ");
             String mat = sc.nextLine();
 
             switch (type) {
                 case "1" -> list.add(new Clothes(name, size, price, mat));
                 case "2" -> {
-                    System.out.print("Довжина штанів (см): ");
+                    System.out.print("Довжина (см): ");
                     int len = Integer.parseInt(sc.nextLine());
                     list.add(new Pants(name, size, price, mat, len));
                 }
@@ -162,7 +156,7 @@ public class Main {
                     list.add(new Shirts(name, size, price, mat, sleeve));
                 }
                 case "4" -> {
-                    System.out.print("Довжина штанів (см): ");
+                    System.out.print("Довжина (см): ");
                     int len = Integer.parseInt(sc.nextLine());
                     System.out.print("Фасон: ");
                     String fit = sc.nextLine();
@@ -175,19 +169,10 @@ public class Main {
                     boolean print = Boolean.parseBoolean(sc.nextLine());
                     list.add(new TShirt(name, size, price, mat, sleeve, print));
                 }
-                default -> {
-                    System.out.println("Невірний тип об'єкта.");
-                    return;
-                }
+                default -> System.out.println("Невірний тип.");
             }
-            System.out.println("Об'єкт успішно додано до колекції.");
-
-        } catch (NumberFormatException e) {
-            System.out.println("Помилка: Введіть коректне числове значення!");
-        } catch (IllegalArgumentException e) {
-            System.out.println("Помилка валідації: " + e.getMessage());
         } catch (Exception e) {
-            System.out.println("Виникла непередбачувана помилка: " + e.getMessage());
+            System.out.println("Помилка введення: " + e.getMessage());
         }
     }
 
@@ -195,9 +180,11 @@ public class Main {
         if (list.isEmpty()) {
             System.out.println("\nКолекція порожня.");
         } else {
-            System.out.println("\n--- Список усіх об'єктів в ієрархії ---");
-            list.forEach(System.out::println);
-            System.out.println("---------------------------------------");
+            System.out.println("\n--- Список усіх об'єктів ---");
+            for (Clothes item : list) {
+                System.out.println(item);
+            }
+            System.out.println("----------------------------");
         }
     }
 
@@ -206,22 +193,19 @@ public class Main {
         try (FileWriter writer = new FileWriter(FILE_NAME)) {
             gson.toJson(list, writer);
         } catch (IOException e) {
-            System.out.println("Помилка запису у файл: " + e.getMessage());
+            System.out.println("Помилка запису: " + e.getMessage());
         }
     }
 
     private static void loadFromJson() {
         File file = new File(FILE_NAME);
         if (!file.exists()) return;
-
         Gson gson = new Gson();
         try (FileReader reader = new FileReader(file)) {
             JsonArray jsonArray = JsonParser.parseReader(reader).getAsJsonArray();
             for (int i = 0; i < jsonArray.size(); i++) {
                 JsonObject obj = jsonArray.get(i).getAsJsonObject();
-
                 String type = obj.get("classType").getAsString();
-
                 switch (type) {
                     case "Clothes" -> list.add(gson.fromJson(obj, Clothes.class));
                     case "Pants"   -> list.add(gson.fromJson(obj, Pants.class));
@@ -231,7 +215,7 @@ public class Main {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Помилка завантаження даних: " + e.getMessage());
+            System.out.println("Помилка завантаження: " + e.getMessage());
         }
     }
 }
