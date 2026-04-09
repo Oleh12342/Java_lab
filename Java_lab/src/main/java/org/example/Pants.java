@@ -3,8 +3,8 @@ package org.example;
 public class Pants extends Clothes {
     private int length;
 
-    public Pants(String name, int size, double price, String material, int length) {
-        super(name, size, price, material);
+    public Pants(String name, int size, double price, String material, int length, int quantity) {
+        super(name, size, price, material, quantity);
         this.classType = "Pants";
         setLength(length);
     }

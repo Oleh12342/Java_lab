@@ -1,5 +1,6 @@
 [
   {
+    "quantity": 0,
     "classType": "Clothes",
     "name": "Базова футболка",
     "size": 42,
@@ -8,6 +9,7 @@
   },
   {
     "length": 105,
+    "quantity": 0,
     "classType": "Pants",
     "name": "Класичні штани",
     "size": 48,
@@ -17,6 +19,7 @@
   {
     "fit": "Straight",
     "length": 34,
+    "quantity": 0,
     "classType": "Jeans",
     "name": "Levis 501",
     "size": 32,
@@ -26,6 +29,7 @@
   {
     "hasPrint": true,
     "sleeveType": "Short",
+    "quantity": 0,
     "classType": "TShirt",
     "name": "Puma",
     "size": 44,
@@ -33,6 +37,7 @@
     "material": "Поліестер"
   },
   {
+    "quantity": 0,
     "classType": "Clothes",
     "name": "Куртка",
     "size": 22,
@@ -40,6 +45,7 @@
     "material": "Тканина"
   },
   {
+    "quantity": 0,
     "classType": "Clothes",
     "name": "Штани",
     "size": 77,

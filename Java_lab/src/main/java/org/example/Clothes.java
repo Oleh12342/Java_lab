@@ -4,6 +4,7 @@ package org.example;
  * Клас, що представляє предмет одягу.
  */
 public class Clothes {
+    private int quantity;
     protected String classType;
     private String name;
     private int size;
@@ -14,15 +15,16 @@ public class Clothes {
      * Конструктор для створення об'єкта одягу.
      * @throws IllegalArgumentException якщо параметри некоректні
      */
-    public Clothes(String name, int size, double price, String material) {
+    public Clothes(String name, int size, double price, String material, int quantity) {
+        this.name = name;
+        this.size = size;
+        this.price = price;
+        this.material = material;
+        this.quantity = quantity;
         this.classType = "Clothes";
-
-        setName(name);
-        setSize(size);
-        setPrice(price);
-        setMaterial(material);
     }
 
+    public int getQuantity() { return quantity; }
     public String getClassType() { return classType; }
     public String getName() { return name; }
     public int getSize() { return size; }
@@ -51,9 +53,13 @@ public class Clothes {
         this.material = material;
     }
 
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     @Override
     public String toString() {
-        return String.format("Одяг: %s, Розмір: %d, Ціна: %.2f, Матеріал: %s",
-                name, size, price, material);
+        return String.format("Одяг: %s, Розмір: %d, Ціна: %.2f, Матеріал: %s, Кількість: %d шт.",
+                name, size, price, material, quantity);
     }
 }
