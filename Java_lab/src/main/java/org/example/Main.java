@@ -24,9 +24,6 @@ public class Main {
             String choice = sc.nextLine();
 
             switch (choice) {
-                case "1" -> addObject();
-                case "2" -> showObjects();
-                case "3" -> {
                 case "1" -> searchMenu();
                 case "2" -> addObject();
                 case "3" -> showObjects();
@@ -39,6 +36,7 @@ public class Main {
             }
         }
     }
+
     private static void searchMenu() {
         while (true) {
             System.out.println("\n--- Підменю пошуку ---");
@@ -81,6 +79,20 @@ public class Main {
             }
         }
     }
+
+    // Пошук за назвою
+    private static void findByName(String name) {
+        boolean found = false;
+        System.out.println("\nРезультати пошуку:");
+        for (Clothes item : list) {
+            if (item.getName().toLowerCase().contains(name.toLowerCase())) {
+                System.out.println(item);
+                found = true;
+            }
+        }
+        if (!found) System.out.println("Об'єктів із назвою \"" + name + "\" не знайдено.");
+    }
+
 
     private static void addObject() {
         System.out.println("\nОберіть тип об'єкта для створення:");
