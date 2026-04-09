@@ -93,6 +93,19 @@ public class Main {
         if (!found) System.out.println("Об'єктів із назвою \"" + name + "\" не знайдено.");
     }
 
+    // Пошук за ціною
+    private static void findByPriceRange(double min, double max) {
+        boolean found = false;
+        System.out.println("\nРезультати пошуку в діапазоні [" + min + " - " + max + "]:");
+        for (Clothes item : list) {
+            if (item.getPrice() >= min && item.getPrice() <= max) {
+                System.out.println(item);
+                found = true;
+            }
+        }
+        if (!found) System.out.println("У вказаному ціновому діапазоні нічого не знайдено.");
+    }
+
 
     private static void addObject() {
         System.out.println("\nОберіть тип об'єкта для створення:");
