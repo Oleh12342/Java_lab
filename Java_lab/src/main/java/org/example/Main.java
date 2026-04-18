@@ -8,29 +8,27 @@ public class Main {
     private static final Store myStore = new Store("TechStyle Shop");
     private static final Scanner sc = new Scanner(System.in);
     private static final String FILE_NAME = "input.json";
+    private static DatabaseManager dbManager;
 
     public static void main(String[] args) {
+        if (args.length == 0) {
+            System.out.println("Помилка: вкажіть шлях до файлу (напр. java Main db.properties)");
+            return;
+        }
+        dbManager = new DatabaseManager(args[0]);
         loadFromJson();
 
         while (true) {
-            System.out.println("\n--- Меню (Лабораторна №11) ---");
-            System.out.println("1. Пошук об’єкта");
-            System.out.println("2. Додати об'єкт");
-            System.out.println("3. Вивести інформацію про всі об’єкти");
-            System.out.println("4. Вихід (зі збереженням)");
-
-            System.out.print("Ваш вибір: ");
+            System.out.println("\n--- Меню (Lab 12 - JDBC) ---");
+            System.out.println("1. Пошук | 2. Додати | 3. Список | 4. Вихід");
+            System.out.print("Вибір: ");
             String choice = sc.nextLine();
 
             switch (choice) {
                 case "1" -> searchMenu();
                 case "2" -> addObject();
                 case "3" -> showObjects();
-                case "4" -> {
-                    saveToJson();
-                    System.out.println("Програма завершена. Дані збережено.");
-                    System.exit(0);
-                }
+                case "4" -> { saveToJson(); System.exit(0); }
                 default -> System.out.println("Невірний вибір!");
             }
         }
@@ -111,10 +109,15 @@ public class Main {
                     item = new TShirt(name, size, price, mat, s, Boolean.parseBoolean(sc.nextLine()), qty);
                 }
             }
-            if (item != null) myStore.addNewClothes(item, qty);
+
+            if (item != null) {
+                myStore.addNewClothes(item, qty);
+
+                dbManager.saveToDb(item);
+            }
 
         } catch (Exception e) {
-            System.out.println("Помилка: " + e.getMessage());
+            System.out.println("Помилка при додаванні: " + e.getMessage());
         }
     }
 
