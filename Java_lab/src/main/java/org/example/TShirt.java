@@ -9,6 +9,8 @@ public class TShirt extends Shirts {
         this.hasPrint = hasPrint;
     }
 
+    public boolean isHasPrint() { return hasPrint; }
+
     @Override
     public String toString() {
         return super.toString() + ", Наявність принту: " + (hasPrint ? "Так" : "Ні") + " [Тип: Футболка]";

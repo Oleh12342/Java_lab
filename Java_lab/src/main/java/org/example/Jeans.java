@@ -9,6 +9,8 @@ public class Jeans extends Pants {
         this.fit = fit;
     }
 
+    public String getFit() { return fit; }
+
     @Override
     public String toString() {
         return super.toString() + ", Фасон: " + fit + " [Тип: Джинси]";
