@@ -3,7 +3,7 @@ package org.example;
 /**
  * Клас, що представляє предмет одягу.
  */
-public class Clothes {
+public abstract class Clothes implements Comparable<Clothes> {
     private int quantity;
     protected String classType;
     private String name;
@@ -22,6 +22,12 @@ public class Clothes {
         this.material = material;
         this.quantity = quantity;
         this.classType = "Clothes";
+    }
+
+    @Override
+    public int compareTo(Clothes other) {
+        if (other == null) return 1;
+        return this.name.compareToIgnoreCase(other.name);
     }
 
     public int getQuantity() { return quantity; }
