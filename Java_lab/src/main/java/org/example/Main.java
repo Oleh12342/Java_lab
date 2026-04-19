@@ -3,6 +3,9 @@ package org.example;
 import com.google.gson.*;
 import java.io.*;
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Main {
     private static final Store myStore = new Store("TechStyle Shop");
@@ -13,11 +16,12 @@ public class Main {
         loadFromJson();
 
         while (true) {
-            System.out.println("\n--- Меню (Лабораторна №11) ---");
+            System.out.println("\n--- Меню (Лабораторна №13) ---");
             System.out.println("1. Пошук об’єкта");
             System.out.println("2. Додати об'єкт");
-            System.out.println("3. Вивести інформацію про всі об’єкти");
-            System.out.println("4. Вихід (зі збереженням)");
+            System.out.println("3. Вивести інформацію про всі об’єкти (без сортування)");
+            System.out.println("4. Вивести відсортовану інформацію (за назвою)");
+            System.out.println("5. Вихід (зі збереженням)");
 
             System.out.print("Ваш вибір: ");
             String choice = sc.nextLine();
@@ -26,7 +30,8 @@ public class Main {
                 case "1" -> searchMenu();
                 case "2" -> addObject();
                 case "3" -> showObjects();
-                case "4" -> {
+                case "4" -> showSortedObjects();
+                case "5" -> {
                     saveToJson();
                     System.out.println("Програма завершена. Дані збережено.");
                     System.exit(0);
@@ -77,7 +82,7 @@ public class Main {
     }
 
     private static void addObject() {
-        System.out.println("\n1. Одяг | 2. Штани | 3. Сорочка | 4. Джинси | 5. Футболка | 0. Назад");
+        System.out.println("\n1. Штани | 2. Сорочка | 3. Джинси | 4. Футболка | 0. Назад");
         System.out.print("Вибір: ");
         String type = sc.nextLine();
         if (type.equals("0")) return;
@@ -91,21 +96,20 @@ public class Main {
 
             Clothes item = null;
             switch (type) {
-                case "1" -> item = new Clothes(name, size, price, mat, qty);
-                case "2" -> {
+                case "1" -> {
                     System.out.print("Довжина: ");
                     item = new Pants(name, size, price, mat, Integer.parseInt(sc.nextLine()), qty);
                 }
-                case "3" -> {
+                case "2" -> {
                     System.out.print("Рукав: ");
                     item = new Shirts(name, size, price, mat, sc.nextLine(), qty);
                 }
-                case "4" -> {
+                case "3" -> {
                     System.out.print("Довжина: "); int l = Integer.parseInt(sc.nextLine());
                     System.out.print("Фасон: ");
                     item = new Jeans(name, size, price, mat, l, sc.nextLine(), qty);
                 }
-                case "5" -> {
+                case "4" -> {
                     System.out.print("Рукав: "); String s = sc.nextLine();
                     System.out.print("Принт (true/false): ");
                     item = new TShirt(name, size, price, mat, s, Boolean.parseBoolean(sc.nextLine()), qty);
@@ -115,6 +119,24 @@ public class Main {
 
         } catch (Exception e) {
             System.out.println("Помилка: " + e.getMessage());
+        }
+    }
+
+    private static void showSortedObjects() {
+        List<Clothes> inventory = myStore.getInventory();
+
+        if (inventory.isEmpty()) {
+            System.out.println("\nМагазин порожній. Нічого сортувати.");
+            return;
+        }
+
+        List<Clothes> sortedList = new ArrayList<>(inventory);
+
+        Collections.sort(sortedList);
+
+        System.out.println("\n--- Склад магазину (Відсортовано за назвою) ---");
+        for (Clothes c : sortedList) {
+            System.out.println(c);
         }
     }
 
@@ -146,7 +168,6 @@ public class Main {
                 JsonObject obj = jsonArray.get(i).getAsJsonObject();
                 String type = obj.get("classType").getAsString();
                 Clothes c = switch (type) {
-                    case "Clothes" -> gson.fromJson(obj, Clothes.class);
                     case "Pants"   -> gson.fromJson(obj, Pants.class);
                     case "Shirts"  -> gson.fromJson(obj, Shirts.class);
                     case "Jeans"   -> gson.fromJson(obj, Jeans.class);
