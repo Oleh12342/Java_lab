@@ -162,6 +162,19 @@ public class Main {
                         }
                     };
                 }
+                case "3" -> {
+                    comparator = new Comparator<Clothes>() {
+                        @Override
+                        public int compare(Clothes c1, Clothes c2) {
+                            return Integer.compare(c2.getQuantity(), c1.getQuantity());
+                        }
+                    };
+                }
+                default -> {
+                    System.out.println("Невірний вибір!");
+                    continue;
+                }
+            }
 
         System.out.println("\n--- Склад магазину (Відсортовано за назвою) ---");
         for (Clothes c : sortedList) {
