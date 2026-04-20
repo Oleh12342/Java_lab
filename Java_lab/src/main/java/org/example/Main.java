@@ -6,6 +6,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Comparator;
 
 public class Main {
     private static final Store myStore = new Store("TechStyle Shop");
@@ -130,7 +131,19 @@ public class Main {
             return;
         }
 
-        List<Clothes> sortedList = new ArrayList<>(inventory);
+        while (true) {
+            System.out.println("\n--- Оберіть критерій сортування ---");
+            System.out.println("1. За назвою (А-Я)");
+            System.out.println("2. За ціною (від найменшої)");
+            System.out.println("3. За кількістю (від найбільшої)");
+            System.out.println("0. Повернутися в головне меню");
+            System.out.print("Ваш вибір: ");
+
+            String choice = sc.nextLine();
+            if (choice.equals("0")) return;
+
+            List<Clothes> sortedList = new ArrayList<>(inventory);
+            Comparator<Clothes> comparator = null;
 
         Collections.sort(sortedList);
 
