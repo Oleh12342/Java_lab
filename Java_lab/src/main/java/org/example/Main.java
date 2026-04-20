@@ -145,13 +145,20 @@ public class Main {
             List<Clothes> sortedList = new ArrayList<>(inventory);
             Comparator<Clothes> comparator = null;
 
-        Collections.sort(sortedList);
             switch (choice) {
                 case "1" -> {
                     comparator = new Comparator<Clothes>() {
                         @Override
                         public int compare(Clothes c1, Clothes c2) {
                             return c1.getName().compareToIgnoreCase(c2.getName());
+                        }
+                    };
+                }
+                case "2" -> {
+                    comparator = new Comparator<Clothes>() {
+                        @Override
+                        public int compare(Clothes c1, Clothes c2) {
+                            return Double.compare(c1.getPrice(), c2.getPrice());
                         }
                     };
                 }
