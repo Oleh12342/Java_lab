@@ -176,9 +176,13 @@ public class Main {
                 }
             }
 
-        System.out.println("\n--- Склад магазину (Відсортовано за назвою) ---");
-        for (Clothes c : sortedList) {
-            System.out.println(c);
+            if (comparator != null) {
+                Collections.sort(sortedList, comparator);
+                System.out.println("\n--- Результат сортування ---");
+                for (Clothes c : sortedList) {
+                    System.out.println(c);
+                }
+            }
         }
     }
 
