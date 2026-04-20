@@ -17,11 +17,11 @@ public class Main {
         loadFromJson();
 
         while (true) {
-            System.out.println("\n--- Меню (Лабораторна №13) ---");
+            System.out.println("\n--- Меню (Лабораторна №14) ---");
             System.out.println("1. Пошук об’єкта");
             System.out.println("2. Додати об'єкт");
-            System.out.println("3. Вивести інформацію про всі об’єкти (без сортування)");
-            System.out.println("4. Вивести відсортовану інформацію (за назвою)");
+            System.out.println("3. Вивести інформацію про всі об’єкти");
+            System.out.println("4. Меню для вибору критерію сортування");
             System.out.println("5. Вихід (зі збереженням)");
 
             System.out.print("Ваш вибір: ");
