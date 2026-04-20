@@ -146,6 +146,15 @@ public class Main {
             Comparator<Clothes> comparator = null;
 
         Collections.sort(sortedList);
+            switch (choice) {
+                case "1" -> {
+                    comparator = new Comparator<Clothes>() {
+                        @Override
+                        public int compare(Clothes c1, Clothes c2) {
+                            return c1.getName().compareToIgnoreCase(c2.getName());
+                        }
+                    };
+                }
 
         System.out.println("\n--- Склад магазину (Відсортовано за назвою) ---");
         for (Clothes c : sortedList) {
