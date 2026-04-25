@@ -123,6 +123,62 @@ public class Main {
         }
     }
 
+    private static void deleteObject() {
+        List<Clothes> inventory = myStore.getInventory();
+        if (inventory.isEmpty()) {
+            System.out.println("\nМагазин порожній. Нічого видаляти.");
+            return;
+        }
+
+        System.out.println("\n--- Список товарів на складі ---");
+        for (Clothes item : inventory) {
+            System.out.println(item);
+        }
+
+        System.out.print("\nВведіть ID товару, який хочете видалити/зменшити (або 0 для скасування): ");
+
+        try {
+            int targetId = Integer.parseInt(sc.nextLine());
+            if (targetId == 0) return;
+
+            Clothes foundItem = null;
+            for (Clothes item : inventory) {
+                if (item.getId() == targetId) {
+                    foundItem = item;
+                    break;
+                }
+            }
+
+            if (foundItem == null) {
+                System.out.println("Товар з ID " + targetId + " не знайдено.");
+                return;
+            }
+
+            System.out.println("Обрано: " + foundItem.getName() + " (в наявності: " + foundItem.getQuantity() + ")");
+            System.out.print("Яку кількість бажаєте списати? ");
+
+            int qtyToRemove = Integer.parseInt(sc.nextLine());
+
+            if (qtyToRemove <= 0) {
+                System.out.println("Кількість має бути більшою за 0.");
+                return;
+            }
+
+            int currentQty = foundItem.getQuantity();
+
+            if (qtyToRemove >= currentQty) {
+                inventory.remove(foundItem);
+                System.out.println("Товар '" + foundItem.getName() + "' повністю видалено зі складу.");
+            } else {
+                foundItem.setQuantity(currentQty - qtyToRemove);
+                System.out.println("Кількість оновлено. Залишилося: " + foundItem.getQuantity());
+            }
+
+        } catch (NumberFormatException e) {
+            System.out.println("Помилка: введіть коректне число.");
+        }
+    }
+
     private static void showSortedObjects() {
         List<Clothes> inventory = myStore.getInventory();
 
@@ -207,9 +263,14 @@ public class Main {
     private static void loadFromJson() {
         File file = new File(FILE_NAME);
         if (!file.exists()) return;
+
         Gson gson = new Gson();
         try (FileReader reader = new FileReader(file)) {
             JsonArray jsonArray = JsonParser.parseReader(reader).getAsJsonArray();
+            List<Clothes> inventory = myStore.getInventory();
+
+            int maxId = 0;
+
             for (int i = 0; i < jsonArray.size(); i++) {
                 JsonObject obj = jsonArray.get(i).getAsJsonObject();
                 String type = obj.get("classType").getAsString();
@@ -220,8 +281,17 @@ public class Main {
                     case "TShirt"  -> gson.fromJson(obj, TShirt.class);
                     default -> null;
                 };
-                if (c != null) myStore.getInventory().add(c);
+                if (c != null) {
+                    inventory.add(c);
+
+                    if (c.getId() > maxId) {
+                        maxId = c.getId();
+                    }
+                }
             }
+
+            Clothes.setCounter(maxId + 1);
+
         } catch (Exception e) {
             System.out.println("Помилка завантаження: " + e.getMessage());
         }
