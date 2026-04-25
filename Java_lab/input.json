@@ -1,41 +1,33 @@
 [
   {
-    "length": 105,
-    "quantity": 1,
+    "length": 100,
+    "id": 1,
+    "quantity": 2,
     "classType": "Pants",
-    "name": "Класичні штани",
-    "size": 48,
-    "price": 1200.5,
-    "material": "Вовна"
+    "name": "Штані",
+    "size": 43,
+    "price": 1200.0,
+    "material": "Тканина"
   },
   {
-    "fit": "Straight",
-    "length": 34,
-    "quantity": 1,
-    "classType": "Jeans",
-    "name": "Levis 501",
+    "sleeveType": "Довгий",
+    "id": 3,
+    "quantity": 3,
+    "classType": "Shirts",
+    "name": "Проста сорочка",
     "size": 32,
-    "price": 2500.0,
-    "material": "Денім"
-  },
-  {
-    "hasPrint": true,
-    "sleeveType": "Short",
-    "quantity": 1,
-    "classType": "TShirt",
-    "name": "Puma",
-    "size": 44,
-    "price": 500.0,
-    "material": "Поліестер"
+    "price": 10000.0,
+    "material": "Бавовна"
   },
   {
     "hasPrint": false,
-    "sleeveType": "Короткий",
+    "sleeveType": "Немає",
+    "id": 4,
     "quantity": 1,
     "classType": "TShirt",
-    "name": "Adidas",
-    "size": 43,
-    "price": 1222.0,
+    "name": "Майка",
+    "size": 32,
+    "price": 800.0,
     "material": "Бавовна"
   }
 ]

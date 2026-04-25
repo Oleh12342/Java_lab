@@ -17,12 +17,13 @@ public class Main {
         loadFromJson();
 
         while (true) {
-            System.out.println("\n--- Меню (Лабораторна №14) ---");
+            System.out.println("\n--- Меню (Лабораторна №15) ---");
             System.out.println("1. Пошук об’єкта");
             System.out.println("2. Додати об'єкт");
-            System.out.println("3. Вивести інформацію про всі об’єкти");
-            System.out.println("4. Меню для вибору критерію сортування");
-            System.out.println("5. Вихід (зі збереженням)");
+            System.out.println("3. Видалити об'єкт");
+            System.out.println("4. Вивести інформацію про всі об’єкти");
+            System.out.println("5. Меню для вибору критерію сортування (Lambda)");
+            System.out.println("6. Вихід (зі збереженням)");
 
             System.out.print("Ваш вибір: ");
             String choice = sc.nextLine();
@@ -30,9 +31,10 @@ public class Main {
             switch (choice) {
                 case "1" -> searchMenu();
                 case "2" -> addObject();
-                case "3" -> showObjects();
-                case "4" -> showSortedObjects();
-                case "5" -> {
+                case "3" -> deleteObject();
+                case "4" -> showObjects();
+                case "5" -> showSortedObjects();
+                case "6" -> {
                     saveToJson();
                     System.out.println("Програма завершена. Дані збережено.");
                     System.exit(0);
