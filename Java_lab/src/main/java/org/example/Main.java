@@ -183,7 +183,6 @@ public class Main {
 
     private static void showSortedObjects() {
         List<Clothes> inventory = myStore.getInventory();
-
         if (inventory.isEmpty()) {
             System.out.println("\nМагазин порожній. Нічого сортувати.");
             return;
@@ -204,38 +203,14 @@ public class Main {
             Comparator<Clothes> comparator = null;
 
             switch (choice) {
-                case "1" -> {
-                    comparator = new Comparator<Clothes>() {
-                        @Override
-                        public int compare(Clothes c1, Clothes c2) {
-                            return c1.getName().compareToIgnoreCase(c2.getName());
-                        }
-                    };
-                }
-                case "2" -> {
-                    comparator = new Comparator<Clothes>() {
-                        @Override
-                        public int compare(Clothes c1, Clothes c2) {
-                            return Double.compare(c1.getPrice(), c2.getPrice());
-                        }
-                    };
-                }
-                case "3" -> {
-                    comparator = new Comparator<Clothes>() {
-                        @Override
-                        public int compare(Clothes c1, Clothes c2) {
-                            return Integer.compare(c2.getQuantity(), c1.getQuantity());
-                        }
-                    };
-                }
-                default -> {
-                    System.out.println("Невірний вибір!");
-                    continue;
-                }
+                case "1" -> comparator = (c1, c2) -> c1.getName().compareToIgnoreCase(c2.getName());
+                case "2" -> comparator = (c1, c2) -> Double.compare(c1.getPrice(), c2.getPrice());
+                case "3" -> comparator = (c1, c2) -> Integer.compare(c2.getQuantity(), c1.getQuantity());
+                default -> System.out.println("Невірний вибір!");
             }
 
             if (comparator != null) {
-                Collections.sort(sortedList, comparator);
+                sortedList.sort(comparator);
                 System.out.println("\n--- Результат сортування ---");
                 for (Clothes c : sortedList) {
                     System.out.println(c);
