@@ -1,11 +1,13 @@
 package org.example;
 
+import java.util.UUID;
 /**
  * Клас, що представляє предмет одягу.
  */
-public abstract class Clothes implements Comparable<Clothes> {
+public abstract class Clothes implements Comparable<Clothes>, Identifiable {
     private static int idCounter = 1;
     private int id;
+    private UUID uuid;
     private int quantity;
     protected String classType;
     private String name;
@@ -19,6 +21,7 @@ public abstract class Clothes implements Comparable<Clothes> {
      */
     public Clothes(String name, int size, double price, String material, int quantity) {
         this.id = idCounter++;
+        this.uuid = UUID.randomUUID();
         this.name = name;
         this.size = size;
         this.price = price;
@@ -26,6 +29,9 @@ public abstract class Clothes implements Comparable<Clothes> {
         this.quantity = quantity;
         this.classType = "Clothes";
     }
+
+    @Override
+    public UUID getUuid() { return uuid; }
 
     @Override
     public int compareTo(Clothes other) {
@@ -73,7 +79,7 @@ public abstract class Clothes implements Comparable<Clothes> {
 
     @Override
     public String toString() {
-        return String.format("[ID: %d] %s (Тип: %s), Розмір: %d, Ціна: %.2f, Матеріал: %s, Кількість: %d шт.",
-                id, name, classType, size, price, material, quantity);
+        return String.format("[ID: %d | UUID: %s...] %s (%s), Розмір: %d, Ціна: %.2f, К-сть: %d шт.",
+                id, uuid.toString().substring(0, 8), name, classType, size, price, quantity);
     }
 }
