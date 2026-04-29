@@ -1,33 +1,24 @@
 [
   {
-    "length": 100,
+    "length": 30,
     "id": 1,
-    "quantity": 2,
+    "uuid": "e955af81-462d-43e2-b623-e3e856be9221",
+    "quantity": 4,
     "classType": "Pants",
-    "name": "Штані",
-    "size": 43,
-    "price": 1200.0,
-    "material": "Тканина"
+    "name": "Прості штани",
+    "size": 12,
+    "price": 1000.0,
+    "material": "Бавовна"
   },
   {
-    "sleeveType": "Довгий",
-    "id": 3,
-    "quantity": 3,
+    "sleeveType": "Звичайний",
+    "id": 2,
+    "uuid": "c861347f-e465-4cf0-88c2-505644afdb0d",
+    "quantity": 4,
     "classType": "Shirts",
-    "name": "Проста сорочка",
-    "size": 32,
-    "price": 10000.0,
-    "material": "Бавовна"
-  },
-  {
-    "hasPrint": false,
-    "sleeveType": "Немає",
-    "id": 4,
-    "quantity": 1,
-    "classType": "TShirt",
-    "name": "Майка",
-    "size": 32,
-    "price": 800.0,
-    "material": "Бавовна"
+    "name": "Модна сорочка",
+    "size": 52,
+    "price": 2000.0,
+    "material": "Шолк"
   }
 ]
