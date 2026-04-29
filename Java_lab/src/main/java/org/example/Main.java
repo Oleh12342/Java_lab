@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Comparator;
+import java.util.*;
 
 public class Main {
     private static final Store myStore = new Store("TechStyle Shop");
@@ -17,7 +18,7 @@ public class Main {
         loadFromJson();
 
         while (true) {
-            System.out.println("\n--- Меню (Лабораторна №15) ---");
+            System.out.println("\n--- Меню (Лабораторна №16) ---");
             System.out.println("1. Пошук об’єкта");
             System.out.println("2. Додати об'єкт");
             System.out.println("3. Видалити об'єкт");
@@ -47,41 +48,59 @@ public class Main {
     private static void searchMenu() {
         while (true) {
             System.out.println("\n--- Підменю пошуку ---");
-            System.out.println("1. Пошук за назвою");
-            System.out.println("2. Пошук за діапазоном ціни");
-            System.out.println("3. Пошук за розміром");
-            System.out.println("0. Повернутися до головного меню");
-            System.out.print("Ваш вибір: ");
+            System.out.println("1. За назвою | 2. За ціною | 3. За розміром | 4. ЗА UUID");
+            System.out.println("0. Назад");
+            System.out.print("Вибір: ");
 
             String choice = sc.nextLine();
-
             switch (choice) {
-                case "1" -> {
-                    System.out.print("Назва: ");
-                    myStore.findByName(sc.nextLine());
-                }
-                case "2" -> {
-                    try {
-                        System.out.print("Мін. ціна: ");
-                        double min = Double.parseDouble(sc.nextLine());
-                        System.out.print("Макс. ціна: ");
-                        double max = Double.parseDouble(sc.nextLine());
-                        myStore.findByPriceRange(min, max);
-                    } catch (NumberFormatException e) {
-                        System.out.println("Помилка числа!");
-                    }
-                }
-                case "3" -> {
-                    try {
-                        System.out.print("Розмір: ");
-                        myStore.findBySize(Integer.parseInt(sc.nextLine()));
-                    } catch (NumberFormatException e) {
-                        System.out.println("Помилка числа!");
-                    }
-                }
+                case "1" -> { System.out.print("Назва: "); myStore.findByName(sc.nextLine()); }
+                case "2" -> searchByPrice();
+                case "3" -> searchBySize();
+                case "4" -> searchByUuid();
                 case "0" -> { return; }
             }
         }
+    }
+
+    private static void searchByUuid() {
+        System.out.print("Введіть повний UUID: ");
+        String input = sc.nextLine();
+        try {
+            UUID target = UUID.fromString(input.trim());
+            Clothes found = null;
+
+            for (Clothes c : myStore.getInventory()) {
+                if (c.getUuid().equals(target)) {
+                    found = c;
+                    break;
+                }
+            }
+
+            if (found != null) {
+                System.out.println("\nЗнайдено повну інформацію:");
+                System.out.println(found);
+            } else {
+                System.out.println("Об'єкт не знайдено.");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Помилка: Некоректний формат UUID!");
+        }
+    }
+
+    private static void searchByPrice() {
+        try {
+            System.out.print("Мін: "); double min = Double.parseDouble(sc.nextLine());
+            System.out.print("Макс: "); double max = Double.parseDouble(sc.nextLine());
+            myStore.findByPriceRange(min, max);
+        } catch (Exception e) { System.out.println("Помилка вводу!"); }
+    }
+
+    private static void searchBySize() {
+        try {
+            System.out.print("Розмір: ");
+            myStore.findBySize(Integer.parseInt(sc.nextLine()));
+        } catch (Exception e) { System.out.println("Помилка вводу!"); }
     }
 
     private static void addObject() {
