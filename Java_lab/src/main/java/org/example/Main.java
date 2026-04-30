@@ -17,13 +17,14 @@ public class Main {
         loadFromJson();
 
         while (true) {
-            System.out.println("\n--- Меню (Лабораторна №15) ---");
+            System.out.println("\n--- Меню (Лабораторна №17) ---");
             System.out.println("1. Пошук об’єкта");
             System.out.println("2. Додати об'єкт");
             System.out.println("3. Видалити об'єкт");
-            System.out.println("4. Вивести інформацію про всі об’єкти");
-            System.out.println("5. Меню для вибору критерію сортування (Lambda)");
-            System.out.println("6. Вихід (зі збереженням)");
+            System.out.println("4. Модифікувати товар");
+            System.out.println("5. Вивести інформацію про всі об’єкти");
+            System.out.println("6. Меню для вибору критерію сортування (Lambda)");
+            System.out.println("7. Вихід (зі збереженням)");
 
             System.out.print("Ваш вибір: ");
             String choice = sc.nextLine();
@@ -31,10 +32,11 @@ public class Main {
             switch (choice) {
                 case "1" -> searchMenu();
                 case "2" -> addObject();
-                case "3" -> deleteObject();
-                case "4" -> showObjects();
-                case "5" -> showSortedObjects();
-                case "6" -> {
+                case "3" -> deleteClothes();
+                case "4" -> modifyClothes();
+                case "5" -> showObjects();
+                case "6" -> showSortedObjects();
+                case "7" -> {
                     saveToJson();
                     System.out.println("Програма завершена. Дані збережено.");
                     System.exit(0);
@@ -125,59 +127,74 @@ public class Main {
         }
     }
 
-    private static void deleteObject() {
-        List<Clothes> inventory = myStore.getInventory();
-        if (inventory.isEmpty()) {
-            System.out.println("\nМагазин порожній. Нічого видаляти.");
-            return;
-        }
-
-        System.out.println("\n--- Список товарів на складі ---");
-        for (Clothes item : inventory) {
-            System.out.println(item);
-        }
-
-        System.out.print("\nВведіть ID товару, який хочете видалити/зменшити (або 0 для скасування): ");
-
+    private static void deleteClothes() {
         try {
-            int targetId = Integer.parseInt(sc.nextLine());
-            if (targetId == 0) return;
+            System.out.print("Введіть ID для видалення: ");
+            int id = Integer.parseInt(sc.nextLine());
 
-            Clothes foundItem = null;
-            for (Clothes item : inventory) {
-                if (item.getId() == targetId) {
-                    foundItem = item;
+            Clothes target = null;
+            for (Clothes c : myStore.getInventory()) {
+                if (c.getId() == id) {
+                    target = c;
                     break;
                 }
             }
 
-            if (foundItem == null) {
-                System.out.println("Товар з ID " + targetId + " не знайдено.");
-                return;
-            }
-
-            System.out.println("Обрано: " + foundItem.getName() + " (в наявності: " + foundItem.getQuantity() + ")");
-            System.out.print("Яку кількість бажаєте списати? ");
-
-            int qtyToRemove = Integer.parseInt(sc.nextLine());
-
-            if (qtyToRemove <= 0) {
-                System.out.println("Кількість має бути більшою за 0.");
-                return;
-            }
-
-            int currentQty = foundItem.getQuantity();
-
-            if (qtyToRemove >= currentQty) {
-                inventory.remove(foundItem);
-                System.out.println("Товар '" + foundItem.getName() + "' повністю видалено зі складу.");
+            if (target != null) {
+                System.out.print("Видалити '" + target.getName() + "'? (y/n): ");
+                if (sc.nextLine().equalsIgnoreCase("y")) {
+                    if (myStore.delete(target)) {
+                        System.out.println("Видалено успішно.");
+                    }
+                }
             } else {
-                foundItem.setQuantity(currentQty - qtyToRemove);
-                System.out.println("Кількість оновлено. Залишилося: " + foundItem.getQuantity());
+                System.out.println("Об'єкт не знайдено.");
+            }
+        } catch (Exception e) {
+            System.out.println("Помилка: Введіть числове ID!");
+        }
+    }
+
+    private static void modifyClothes() {
+        if (myStore.getInventory().isEmpty()) {
+            System.out.println("Склад порожній.");
+            return;
+        }
+
+        try {
+            System.out.print("Введіть ID об'єкта для зміни: ");
+            int id = Integer.parseInt(sc.nextLine());
+
+            Clothes target = null;
+            for (Clothes c : myStore.getInventory()) {
+                if (c.getId() == id) {
+                    target = c;
+                    break;
+                }
             }
 
-        } catch (NumberFormatException e) {
-            System.out.println("Помилка: введіть коректне число.");
+            if (target == null) {
+                System.out.println("Об'єкт не знайдено.");
+                return;
+            }
+
+            System.out.println("Що змінити? 1. Назва | 2. Ціна | 0. Назад");
+            String choice = sc.nextLine();
+
+            if (choice.equals("1")) {
+                System.out.print("Нова назва: ");
+                target.setName(sc.nextLine());
+                myStore.update(target, target);
+                System.out.println("Назву оновлено!");
+            } else if (choice.equals("2")) {
+                System.out.print("Нова ціна: ");
+                target.setPrice(Double.parseDouble(sc.nextLine()));
+                myStore.update(target, target);
+                System.out.println("Ціну оновлено!");
+            }
+
+        } catch (Exception e) {
+            System.out.println("Помилка: Некоректні дані!");
         }
     }
 
