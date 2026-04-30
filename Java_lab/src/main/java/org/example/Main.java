@@ -128,6 +128,11 @@ public class Main {
     }
 
     private static void deleteClothes() {
+        if (myStore.getInventory().isEmpty()) {
+            System.out.println("Склад порожній.");
+            return;
+        }
+
         try {
             System.out.print("Введіть ID для видалення: ");
             int id = Integer.parseInt(sc.nextLine());
