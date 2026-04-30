@@ -1,15 +1,5 @@
 [
   {
-    "length": 100,
-    "id": 1,
-    "quantity": 2,
-    "classType": "Pants",
-    "name": "Штані",
-    "size": 43,
-    "price": 1200.0,
-    "material": "Тканина"
-  },
-  {
     "sleeveType": "Довгий",
     "id": 3,
     "quantity": 3,
@@ -25,7 +15,7 @@
     "id": 4,
     "quantity": 1,
     "classType": "TShirt",
-    "name": "Майка",
+    "name": "Проста майка",
     "size": 32,
     "price": 800.0,
     "material": "Бавовна"
