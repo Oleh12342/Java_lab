@@ -68,6 +68,22 @@ public class Store {
         if (!found) System.out.println("Нічого не знайдено.");
     }
 
+    public boolean update(Clothes existingObject, Clothes newObject) {
+        if (existingObject == null || newObject == null) return false;
+
+        int index = inventory.indexOf(existingObject);
+        if (index != -1) {
+            inventory.set(index, newObject);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean delete(Clothes existingObject) {
+        if (existingObject == null) return false;
+        return inventory.remove(existingObject);
+    }
+
     @Override
     public String toString() {
         return "Магазин: " + name + ", Кількість позицій: " + inventory.size();
