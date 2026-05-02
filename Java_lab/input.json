@@ -1,15 +1,5 @@
 [
   {
-    "sleeveType": "Довгий",
-    "id": 3,
-    "quantity": 3,
-    "classType": "Shirts",
-    "name": "Проста сорочка",
-    "size": 32,
-    "price": 10000.0,
-    "material": "Бавовна"
-  },
-  {
     "hasPrint": false,
     "sleeveType": "Немає",
     "id": 4,
@@ -17,7 +7,7 @@
     "classType": "TShirt",
     "name": "Проста майка",
     "size": 32,
-    "price": 800.0,
+    "price": 2000.0,
     "material": "Бавовна"
   }
 ]
