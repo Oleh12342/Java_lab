@@ -10,7 +10,7 @@ public class Pants extends Clothes {
     }
 
     public void setLength(int length) {
-        if (length <= 0) throw new IllegalArgumentException("Довжина має бути більше 0");
+        if (length <= 0) throw new InvalidFieldValueException("Довжина має бути більше 0");
         this.length = length;
     }
 

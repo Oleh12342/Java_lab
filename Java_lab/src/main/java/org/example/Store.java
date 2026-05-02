@@ -69,18 +69,22 @@ public class Store {
     }
 
     public boolean update(Clothes existingObject, Clothes newObject) {
-        if (existingObject == null || newObject == null) return false;
+        if (existingObject == null || newObject == null)
+            throw new ObjectNotFoundException("Об'єкт не вказано");
 
         int index = inventory.indexOf(existingObject);
-        if (index != -1) {
-            inventory.set(index, newObject);
-            return true;
+        if (index == -1) {
+            throw new ObjectNotFoundException("Товар '" + existingObject.getName() + "' не знайдено для оновлення");
         }
-        return false;
+        inventory.set(index, newObject);
+        return true;
     }
 
     public boolean delete(Clothes existingObject) {
-        if (existingObject == null) return false;
+        if (existingObject == null) throw new ObjectNotFoundException("Об'єкт порожній");
+        if (!inventory.contains(existingObject)) {
+            throw new ObjectNotFoundException("Товар не знайдено на складі");
+        }
         return inventory.remove(existingObject);
     }
 

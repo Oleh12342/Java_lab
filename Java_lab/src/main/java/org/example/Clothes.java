@@ -19,10 +19,10 @@ public abstract class Clothes implements Comparable<Clothes> {
      */
     public Clothes(String name, int size, double price, String material, int quantity) {
         this.id = idCounter++;
-        this.name = name;
-        this.size = size;
-        this.price = price;
-        this.material = material;
+        setName(name);
+        setSize(size);
+        setPrice(price);
+        setMaterial(material);
         this.quantity = quantity;
         this.classType = "Clothes";
     }
@@ -47,23 +47,23 @@ public abstract class Clothes implements Comparable<Clothes> {
 
     public void setName(String name) {
         if (name == null || name.trim().isEmpty())
-            throw new IllegalArgumentException("Назва не може бути порожньою");
+            throw new InvalidFieldValueException("Назва не може бути порожньою");
         this.name = name;
     }
 
     public void setSize(int size) {
-        if (size <= 0) throw new IllegalArgumentException("Розмір має бути більше 0");
+        if (size <= 0) throw new InvalidFieldValueException("Розмір має бути більше 0");
         this.size = size;
     }
 
     public void setPrice(double price) {
-        if (price < 0) throw new IllegalArgumentException("Ціна не може бути від'ємною");
+        if (price < 0) throw new InvalidFieldValueException("Ціна не може бути від'ємною");
         this.price = price;
     }
 
     public void setMaterial(String material) {
         if (material == null || material.trim().isEmpty())
-            throw new IllegalArgumentException("Матеріал не вказано");
+            throw new InvalidFieldValueException("Матеріал не вказано");
         this.material = material;
     }
 

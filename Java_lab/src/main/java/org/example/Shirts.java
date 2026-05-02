@@ -11,7 +11,7 @@ public class Shirts extends Clothes {
 
     public void setSleeveType(String sleeveType) {
         if (sleeveType == null || sleeveType.trim().isEmpty())
-            throw new IllegalArgumentException("Тип рукава не вказано");
+            throw new InvalidFieldValueException("Тип рукава не вказано");
         this.sleeveType = sleeveType;
     }
 

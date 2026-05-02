@@ -120,10 +120,17 @@ public class Main {
                     item = new TShirt(name, size, price, mat, s, Boolean.parseBoolean(sc.nextLine()), qty);
                 }
             }
-            if (item != null) myStore.addNewClothes(item, qty);
 
+            if (item != null) {
+                myStore.addNewClothes(item, qty);
+            }
+
+        } catch (InvalidFieldValueException e) {
+            System.out.println("Помилка даних: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("Помилка: Введено текст замість числа!");
         } catch (Exception e) {
-            System.out.println("Помилка: " + e.getMessage());
+            System.out.println("Сталася непередбачена помилка: " + e.getMessage());
         }
     }
 
@@ -145,18 +152,22 @@ public class Main {
                 }
             }
 
-            if (target != null) {
-                System.out.print("Видалити '" + target.getName() + "'? (y/n): ");
-                if (sc.nextLine().equalsIgnoreCase("y")) {
-                    if (myStore.delete(target)) {
-                        System.out.println("Видалено успішно.");
-                    }
-                }
-            } else {
-                System.out.println("Об'єкт не знайдено.");
+            if (target == null) {
+                throw new ObjectNotFoundException("Товар з ID " + id + " не знайдено.");
             }
+
+            System.out.print("Видалити '" + target.getName() + "'? (y/n): ");
+            if (sc.nextLine().equalsIgnoreCase("y")) {
+                myStore.delete(target);
+                System.out.println("Видалено успішно.");
+            }
+
+        } catch (ObjectNotFoundException e) {
+            System.out.println("Помилка пошуку: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("Помилка: ID має бути числом!");
         } catch (Exception e) {
-            System.out.println("Помилка: Введіть числове ID!");
+            System.out.println("Помилка видалення: " + e.getMessage());
         }
     }
 
@@ -179,27 +190,38 @@ public class Main {
             }
 
             if (target == null) {
-                System.out.println("Об'єкт не знайдено.");
-                return;
+                throw new ObjectNotFoundException("Об'єкт з ID " + id + " не існує.");
             }
 
             System.out.println("Що змінити? 1. Назва | 2. Ціна | 0. Назад");
             String choice = sc.nextLine();
 
-            if (choice.equals("1")) {
-                System.out.print("Нова назва: ");
-                target.setName(sc.nextLine());
-                myStore.update(target, target);
-                System.out.println("Назву оновлено!");
-            } else if (choice.equals("2")) {
-                System.out.print("Нова ціна: ");
-                target.setPrice(Double.parseDouble(sc.nextLine()));
-                myStore.update(target, target);
-                System.out.println("Ціну оновлено!");
+            switch (choice) {
+                case "1" -> {
+                    System.out.print("Нова назва: ");
+                    target.setName(sc.nextLine());
+                    myStore.update(target, target);
+                    System.out.println("Назву оновлено!");
+                }
+                case "2" -> {
+                    System.out.print("Нова ціна: ");
+                    double newPrice = Double.parseDouble(sc.nextLine());
+                    target.setPrice(newPrice);
+                    myStore.update(target, target);
+                    System.out.println("Ціну оновлено!");
+                }
+                case "0" -> System.out.println("Зміни скасовано.");
+                default -> System.out.println("Невірний пункт меню.");
             }
 
+        } catch (ObjectNotFoundException e) {
+            System.out.println("Помилка модифікації: " + e.getMessage());
+        } catch (InvalidFieldValueException e) {
+            System.out.println("Некоректні дані: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("Помилка: Введено невірний формат числа!");
         } catch (Exception e) {
-            System.out.println("Помилка: Некоректні дані!");
+            System.out.println("Критична помилка: " + e.getMessage());
         }
     }
 
